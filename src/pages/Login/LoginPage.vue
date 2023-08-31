@@ -1,31 +1,57 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ref } from 'vue'
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth'
+import { auth } from '@/firebase'
+
+const isLoginShown = ref(true)
+
+const email = ref('')
+const password = ref('')
+
+async function login() {
+  try {
+    const loginRequest = await signInWithEmailAndPassword(auth, email.value, password.value)
+  } catch (error) {
+    alert(error)
+  }
+}
+
+async function signUp() {
+  try {
+    const signUpRequest = await createUserWithEmailAndPassword(auth, email.value, password.value)
+    isLoginShown.value = true
+  } catch (error) {
+    alert(error)
+  }
+}
+</script>
 
 <template>
-  <div>
+  <div v-if="isLoginShown">
     <h1>Login</h1>
     <div class="credentials-container">
       <label for="email">Email</label>
-      <input type="email" />
+      <input v-model="email" type="email" />
       <label for="password">Contraseña</label>
-      <input type="password" />
+      <input v-model="password" type="password" />
     </div>
     <div class="btn-container">
-      <button type="button">Iniciar Sesión</button>
-      <button type="button">Registrarme</button>
+      <button @click="login" type="button">Iniciar Sesión</button>
+      <button @click="isLoginShown = false" type="button">Registrarme</button>
     </div>
   </div>
-  <div>
+  <div v-else>
     <h1>Registro</h1>
     <div class="credentials-container">
       <p>Crea una nueva cuenta con correo y contraseña</p>
       <label for="email">Email</label>
-      <input type="email" />
+      <input v-model="email" type="email" />
       <label for="password">Contraseña</label>
-      <input type="password" />
+      <input v-model="password" type="password" />
     </div>
     <div class="btn-container">
-      <button type="button">Iniciar Sesión</button>
-      <button type="button">Registrarme</button>
+      <button @click="isLoginShown = true" type="button">Cancelar</button>
+      <button @click="signUp" type="button">Registrame</button>
     </div>
   </div>
 </template>
