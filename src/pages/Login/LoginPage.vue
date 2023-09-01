@@ -30,28 +30,36 @@ async function signUp() {
   <div v-if="isLoginShown">
     <h1>Login</h1>
     <div class="credentials-container">
-      <label for="email">Email</label>
-      <input v-model="email" type="email" />
-      <label for="password">Contraseña</label>
-      <input v-model="password" type="password" />
+      <div>
+        <label for="email">Email: </label>
+        <input v-model="email" type="email" />
+      </div>
+      <div>
+        <label for="password">Contraseña: </label>
+        <input v-model="password" type="password" />
+      </div>
     </div>
     <div class="btn-container">
-      <button @click="login" type="button">Iniciar Sesión</button>
-      <button @click="isLoginShown = false" type="button">Registrarme</button>
+      <button class="login-btn" @click="login" type="button">Iniciar Sesión</button>
+      <button class="register-btn" @click="isLoginShown = false" type="button">Registrarme</button>
     </div>
   </div>
   <div v-else>
     <h1>Registro</h1>
     <div class="credentials-container">
       <p>Crea una nueva cuenta con correo y contraseña</p>
-      <label for="email">Email</label>
-      <input v-model="email" type="email" />
-      <label for="password">Contraseña</label>
-      <input v-model="password" type="password" />
+      <div>
+        <label for="email">Email: </label>
+        <input v-model="email" type="email" />
+      </div>
+      <div>
+        <label for="password">Contraseña: </label>
+        <input v-model="password" type="password" />
+      </div>
     </div>
     <div class="btn-container">
       <button @click="isLoginShown = true" type="button">Cancelar</button>
-      <button @click="signUp" type="button">Registrame</button>
+      <button class="register-btn" @click="signUp" type="button">Registrame</button>
     </div>
   </div>
 </template>
@@ -60,35 +68,52 @@ async function signUp() {
 h1 {
   text-align: center;
 }
+
 .credentials-container {
-  padding-top: 10px;
-  padding-bottom: 10px;
   margin: auto;
-  width: 20%;
-  max-width: 1200px;
+  width: 500px;
   background-color: whitesmoke;
-  border: 0.5px solid gray;
-  border-radius: 10px;
-}
-label,
-input {
-  margin-left: 10px;
-}
-button {
-  margin: 20px auto;
-  display: block;
-  padding: 10px 15px;
-  font-size: 15px;
-  border: none;
+  border: 1px rgb(217, 217, 217) solid;
   border-radius: 15px;
+}
+
+.credentials-container > div {
+  width: 60%;
+  margin: 15px auto;
+}
+
+input {
+  padding: 7px 5px;
+  border-radius: 10px;
+  border: 0.5px solid rgb(207, 207, 207);
+}
+
+button {
+  display: inline-block;
+  margin: 10px;
+  padding: 5px 10px;
+  border: 0.5px solid rgb(207, 207, 207);
+  background-color: white;
+  border-radius: 5px;
   cursor: pointer;
 }
+
+.login-btn:hover {
+  background-color: rgb(0, 75, 226);
+  color: white;
+}
+
+.register-btn:hover {
+  background-color: rgb(133, 133, 133);
+  color: white;
+}
+
 .btn-container {
   margin: auto;
-  width: 300px;
-  display: flex;
+  width: max-content;
 }
+
 p {
-  padding-inline: 10px;
+  text-align: center;
 }
 </style>
