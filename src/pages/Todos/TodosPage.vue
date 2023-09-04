@@ -1,15 +1,11 @@
 <script setup lang="ts">
-import { signOut } from 'firebase/auth'
-import { auth } from '@/firebase'
 import { collection, getDocs } from 'firebase/firestore'
 import { db } from '@/firebase'
 import { onMounted, ref } from 'vue'
+import Navbar from '@/components/Navbar.vue'
+import router from '@/router'
 
 const todos = ref()
-
-async function signOutUser() {
-  await signOut(auth)
-}
 
 async function getTodos() {
   const collectionRef = collection(db, 'todos')
@@ -25,27 +21,72 @@ async function getTodos() {
   })
 }
 
+function goToCreateTodo() {
+  router.push('/crear-tarea')
+}
+
 onMounted(() => {
   getTodos() // Get Todos when the page loads for first time or after refreshing it
 })
 </script>
 
 <template>
-  <nav>
-    <h3>MyTodos</h3>
-    <button @click="signOutUser">Cerrar Sesion</button>
-  </nav>
-  {{ todos }}
+  <Navbar />
+  <h2>Mi lista de tareas</h2>
+  <button @click="goToCreateTodo" type="button" class="create-btn">Crear una nueva tarea</button>
+  <div class="todos-container">
+    <div v-for="todo in todos" class="todo-item">
+      <div class="complete">
+        <button>Completar ✔</button>
+      </div>
+      <div class="info">
+        <h5>{{ todo.title }}</h5>
+        <p>{{ todo.expires_at }}</p>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
-nav {
-  display: flex;
-  padding: 15px 10px;
-  background-color: whitesmoke;
-  justify-content: space-between;
+h2 {
+  text-align: center;
 }
-h3 {
-  margin: 0;
+
+.create-btn {
+  padding: 5px 10px;
+  margin-right: 10px;
+  border-radius: 10px;
+  background-color: rgb(11, 87, 252);
+  color: white;
+  float: right;
+  cursor: pointer;
+}
+
+.todos-container {
+  margin: 60px auto;
+  width: 800px;
+  background-color: whitesmoke;
+  height: 400px;
+  overflow: auto;
+  border: 1px solid gray;
+  border-radius: 20px;
+}
+
+.todo-item {
+  margin: auto;
+  background-color: white;
+  border: 1px solid gray;
+  border-radius: 10px;
+  width: 80%;
+  display: flex;
+  align-items: center;
+}
+
+.complete {
+  width: 30%;
+}
+
+.info {
+  width: 70%;
 }
 </style>

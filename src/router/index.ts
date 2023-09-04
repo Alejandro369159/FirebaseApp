@@ -12,6 +12,11 @@ const router = createRouter({
       path: '/tareas',
       name: 'todos',
       component: () => import('@/pages/Todos/TodosPage.vue')
+    },
+    {
+      path: '/crear-tarea',
+      name: 'create-todo',
+      component: () => import('@/pages/Create/CreateTodo.vue')
     }
   ]
 })
