@@ -14,6 +14,11 @@ const router = createRouter({
       component: () => import('@/pages/Todos/TodosPage.vue')
     },
     {
+      path: '/tarea/:id',
+      name: 'todo',
+      component: () => import('@/pages/Todo/TodoPage.vue')
+    },
+    {
       path: '/crear-tarea',
       name: 'create-todo',
       component: () => import('@/pages/Create/CreateTodo.vue')
