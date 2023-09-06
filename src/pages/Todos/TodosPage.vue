@@ -1,5 +1,5 @@
 <script setup>
-import { collection, getDocs } from 'firebase/firestore'
+import { collection, getDocs, doc, updateDoc } from 'firebase/firestore'
 import { db } from '@/firebase'
 import { onMounted, ref } from 'vue'
 import Navbar from '@/components/Navbar.vue'
@@ -30,12 +30,13 @@ function goToTodo(id) {
   router.push(`/tarea/${id}`)
 }
 
-async function completeTodo(id) {
+async function completeTodo(id, index) {
   try {
     const docRef = doc(db, 'todos', id)
     await updateDoc(docRef, {
       status: 'completed'
     })
+    todos.value[index].status = 'completed'
   } catch (error) {
     alert(error)
   }
@@ -51,9 +52,9 @@ onMounted(() => {
   <h2>Mi lista de tareas</h2>
   <div class="todos-container">
     <button @click="goToCreateTodo" type="button" class="create-btn">Crear una nueva tarea</button>
-    <div v-for="todo in todos" class="todo-item">
+    <div v-for="(todo, index) in todos" class="todo-item">
       <div class="complete">
-        <button @click="completeTodo(todo.id)">Completar ✔</button>
+        <button @click="completeTodo(todo.id, index)">Completar ✔</button>
       </div>
       <div class="info">
         <h3 :class="todo.status === 'pending' ? 'red' : 'green'" @click="goToTodo(todo.id)">
